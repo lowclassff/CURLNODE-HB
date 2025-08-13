@@ -4,6 +4,6 @@
 
 while true
 do
-  echo "CURLNODE HB is alive at $(date)"
+  echo "CURLNODE-HB is alive at $(date)"
   sleep 10
 done
