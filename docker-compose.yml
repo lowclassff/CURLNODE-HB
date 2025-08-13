@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  ubuntu-vnc-desktop:
+    build: .
+    container_name: CURLNODE-HB
+    hostname: CURLNODE-HB
+    ports:
+      - "5901:5901"
+    environment:
+      - VNC_USER=root
+      - VNC_PASSWORD=root
