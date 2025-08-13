@@ -1,0 +1,23 @@
+# Start with the official Ubuntu 24.04 base image
+FROM ubuntu:24.04
+
+# Prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update the package list and install the OpenSSH server
+RUN apt-get update && apt-get install -y openssh-server
+
+# Create the user 'lowclass' and set their password to 'lowclass'
+# The `useradd` command creates the user, and `echo` pipes the username and password
+# to the `chpasswd` command, which sets the password non-interactively.
+RUN useradd -ms /bin/bash lowclass && echo 'lowclass:lowclass' | chpasswd
+
+# Configure SSH to allow password authentication for the new user
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/g' /etc/ssh/sshd_config
+RUN sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+
+# Expose port 22, the standard port for SSH
+EXPOSE 22
+
+# The container will run the SSH server when it starts
+CMD ["/usr/sbin/sshd", "-D"]
